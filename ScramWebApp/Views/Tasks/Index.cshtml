@@ -1,0 +1,77 @@
+﻿@model TaskVM
+
+@{
+    ViewData["Title"] = "Задачи";
+}
+
+<h1>Задачи</h1>
+
+<p>
+    <a asp-action="Create">Создать новую</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Бэклоги
+            </th>
+            <th class="table-primary">
+                Сделать
+            </th>
+            <th class="table-secondary">
+                В процессе
+            </th>
+            <th class="table-warning">
+                В проверке
+            </th>
+            <th class="table-success">
+                Сделано
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var backlog in @Model.Backlogs)
+       {
+           <tr>
+               <th>@backlog.Name</th>
+                <th>
+                    @foreach (var task in @Model.Tasks.Where(t=> t.BacklogId == @backlog.Id).Where(t=> t.StatusScrumcs == StatusScrumcs.Need))
+                   {
+                       <div>@task.Name
+                            <a asp-action="Edit" asp-route-id="@task.Id">Изменить</a> 
+                            <a asp-action="Delete" asp-route-id="@task.Id">Удалитъ</a>
+                       </div>
+                   }
+                </th>
+                <th>
+                    @foreach (var task in @Model.Tasks.Where(t=> t.BacklogId == @backlog.Id).Where(t=> t.StatusScrumcs == StatusScrumcs.InProcess))
+                   {
+                       <div>@task.Name
+                            <a asp-action="Edit" asp-route-id="@task.Id">Изменить</a> 
+                            <a asp-action="Delete" asp-route-id="@task.Id">Удалитъ</a>
+                       </div>
+                   }
+                </th>
+                <th>
+                    @foreach (var task in @Model.Tasks.Where(t=> t.BacklogId == @backlog.Id).Where(t=> t.StatusScrumcs == StatusScrumcs.Check))
+                   {
+                        <div>@task.Name
+                            <a asp-action="Edit" asp-route-id="@task.Id">Изменить</a> 
+                            <a asp-action="Delete" asp-route-id="@task.Id">Удалитъ</a>
+                       </div>
+                   }
+                </th>
+                <th>
+                    @foreach (var task in @Model.Tasks.Where(t=> t.BacklogId == @backlog.Id).Where(t=> t.StatusScrumcs == StatusScrumcs.Complete))
+                   {
+                       <div>@task.Name
+                            <a asp-action="Edit" asp-route-id="@task.Id">Изменить</a> 
+                            <a asp-action="Delete" asp-route-id="@task.Id">Удалитъ</a>
+                       </div>
+                   }
+                </th>
+           </tr>     
+       }
+    </tbody>
+</table>
